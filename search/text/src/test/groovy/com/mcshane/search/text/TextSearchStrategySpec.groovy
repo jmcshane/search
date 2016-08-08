@@ -1,4 +1,4 @@
-package com.mcshane.search.api
+package com.mcshane.search.text
 
 import spock.lang.Specification
 

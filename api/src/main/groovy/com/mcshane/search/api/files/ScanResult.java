@@ -1,7 +1,9 @@
 package com.mcshane.search.api.files;
 
-import java.util.List;
+import java.util.Map;
+
+import com.mcshane.search.api.domain.SearchableDocument;
 
 public interface ScanResult {
-	List<String> getMatches();
+	Map<SearchableDocument,Integer> getMatches();
 }
