@@ -1,0 +1,2 @@
+include "boot","api","search:text","search:regex","search:index"
+
