@@ -1,0 +1,22 @@
+buildscript {
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:1.4.0.RELEASE")
+	}
+	repositories {
+		mavenCentral()
+	}
+}
+apply from: 'https://raw.github.com/jmcshane/gradle-plugins/master/integration-test.gradle'
+apply plugin: 'spring-boot'
+
+dependencies {
+	compile project(":search:regex")
+	compile project(":search:text")
+	compile project(":search:index")
+	compile "org.springframework.boot:spring-boot-starter-tomcat"
+	compile "org.springframework.boot:spring-boot-starter-web"
+}
+
+bootRepackage {
+	mainClass = 'com.mcshane.search.boot.Application'
+}
