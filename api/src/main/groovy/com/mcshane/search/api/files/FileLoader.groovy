@@ -25,7 +25,7 @@ class FileLoader {
 		result
 	}
 
-	def void setHomeDirectory(Path directory) {
+	def synchronized void setHomeDirectory(Path directory) {
 		this.homeDirectory = directory.toFile();
 		docs = []
 		homeDirectory.eachFileRecurse (FileType.FILES) { locatedFile ->
