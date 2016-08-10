@@ -1,41 +1,50 @@
 package com.mcshane.search.index
 
-import org.bson.Document
+import groovy.io.FileType
+
+import org.mongodb.morphia.Datastore
+import org.mongodb.morphia.query.Query
+import org.mongodb.morphia.query.UpdateOperations
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import org.springframework.util.StringUtils
 
-import com.mcshane.search.api.files.FileLoader
-import com.mongodb.async.client.MongoCollection
-import com.mongodb.async.client.MongoDatabase
-import com.mongodb.client.model.UpdateOptions
+import com.mcshane.search.api.FileLoader
+import com.mcshane.search.index.domain.DocumentResult
+import com.mcshane.search.index.domain.DocumentStore
 
 @Service
-public class Indexer {
-	
-	private static final String COLL_NAME = "searchIndex";
-
+class Indexer {
+	def keys = [] as Set
 	@Autowired
 	private FileLoader fileLoader;
 	
 	@Autowired
-	private MongoDatabase mongoDatabase;
-	
+	private Datastore datastore;
+		
 	def void indexFiles() {
-		MongoCollection<Document> collection = mongoDatabase.getCollection("test");
-		fileLoader.docs.each { searchableDoc ->
-			String text = searchableDoc.filePath.toFile().text
-			text = text.replaceAll("[^A-Za-z]","").toLowerCase()
-			text.split(" ").inject([:]) { result,i ->
+		fileLoader.homeDirectory.eachFileRecurse (FileType.FILES) { locatedFile ->
+			String text = locatedFile.text
+			text = text.replaceAll('[^A-Za-z\\s]','').toLowerCase()
+			def reduction = text.split('\\s').findAll { !StringUtils.isEmpty(it)}
+				.inject([:]) { result,i ->
+				
 				if (result.containsKey(i)) {
 					result << [(i):++result.get(i)]
 				} else {
 					result << [(i):1]
 				}
 			}
-			result.each { key,value ->
-				collection.replaceOne(new Document("word" : key),
-					new Document("files.${searchableDoc.getFileName()}", value),
-					(new UpdateOptions()).upsert(true));
+			reduction.each { key,value ->
+				Query<DocumentStore> baseQuery = datastore.createQuery(DocumentStore.class).filter('word ==', key);
+				if (keys.contains(key) || baseQuery.countAll() == 1) {
+					UpdateOperations ops = datastore.createUpdateOperations(DocumentStore.class).add('results', new DocumentResult(locatedFile.getName(), value));
+					datastore.update(baseQuery, ops);
+				} else {
+					DocumentStore documentStore = new DocumentStore(key, [new DocumentResult(locatedFile.getName(), value)])
+					datastore.save(documentStore)
+					keys << key
+				}
 			}
 		}
 	}

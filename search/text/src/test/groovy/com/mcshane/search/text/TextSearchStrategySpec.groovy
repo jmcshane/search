@@ -5,8 +5,7 @@ import org.junit.rules.TemporaryFolder
 
 import spock.lang.Specification
 
-import com.mcshane.search.api.domain.SearchableDocument
-import com.mcshane.search.api.files.FileLoader
+import com.mcshane.search.api.FileLoader
 
 class TextSearchStrategySpec extends Specification {
 
@@ -19,8 +18,8 @@ class TextSearchStrategySpec extends Specification {
 	
 	def setup() {
 		textSearchStrategy.fileLoader = loader
-		def file = temporaryFolder.newFile('test.txt')
 		loader.setHomeDirectory(temporaryFolder.getRoot().toPath())
+		def file = temporaryFolder.newFile('test.txt')
 		file.withWriter ('UTF-8') { writer ->
 			writer.writeLine "This is the first line of text"
 			writer.writeLine "This is a second line"

@@ -1,14 +1,10 @@
 package com.mcshane.search.api;
 
+import java.io.File;
 import java.util.Objects;
 import java.util.function.BiFunction;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
-import com.mcshane.search.api.domain.LineSearchResult;
-import com.mcshane.search.api.domain.Result;
-import com.mcshane.search.api.domain.SearchableDocument;
-import com.mcshane.search.api.files.FileLoader;
 
 public abstract class AbstractLineSearchStrategy implements SearchStrategy{
 
@@ -16,7 +12,7 @@ public abstract class AbstractLineSearchStrategy implements SearchStrategy{
 	protected FileLoader fileLoader;
 	
 	@SuppressWarnings("unchecked")
-	public Result resultGenerator(BiFunction<SearchableDocument, String, LineSearchResult> mapper) {
+	public Result resultGenerator(BiFunction<File, String, LineSearchResult> mapper) {
 		Result result = new Result();
 		long startTime = System.currentTimeMillis();
 		fileLoader

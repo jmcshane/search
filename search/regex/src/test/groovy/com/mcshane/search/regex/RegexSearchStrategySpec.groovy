@@ -3,9 +3,9 @@ package com.mcshane.search.regex
 import org.junit.Rule
 import org.junit.rules.TemporaryFolder
 
-import spock.lang.Specification
+import com.mcshane.search.api.FileLoader;
 
-import com.mcshane.search.api.files.FileLoader
+import spock.lang.Specification
 
 class RegexSearchStrategySpec extends Specification {
 	@Rule

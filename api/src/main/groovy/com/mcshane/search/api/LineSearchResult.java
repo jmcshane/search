@@ -1,11 +1,13 @@
-package com.mcshane.search.api.domain;
+package com.mcshane.search.api;
+
+import java.io.File;
 
 public class LineSearchResult {
 	
 	private final int occurrences;
-	private final SearchableDocument doc;
+	private final File doc;
 	
-	public LineSearchResult(int occurrences, SearchableDocument doc) {
+	public LineSearchResult(int occurrences, File doc) {
 		this.occurrences = occurrences;
 		this.doc = doc;
 	}
@@ -14,7 +16,7 @@ public class LineSearchResult {
 		return occurrences;
 	}
 
-	public SearchableDocument getDoc() {
+	public File getDoc() {
 		return doc;
 	}
 }

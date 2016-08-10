@@ -1,12 +1,12 @@
-package com.mcshane.search.api.domain
+package com.mcshane.search.api
 
 import java.nio.file.Path
 
 import spock.lang.Specification
 
-class SearchableDocumentSpec extends Specification {
+class ResultSpec extends Specification {
 
-	void 'constructor sets values that are returned by getters'() {
+	/*void 'constructor sets values that are returned by getters'() {
 		when:
 		def path = Mock(Path)
 		def namePath = Mock(Path)
@@ -18,5 +18,5 @@ class SearchableDocumentSpec extends Specification {
 		path == doc.getFilePath()
 		metadata == doc.getFileMetadata()
 		"filename" == doc.getFileName()
-	}
+	}*/
 }

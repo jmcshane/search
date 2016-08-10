@@ -2,6 +2,8 @@ package com.mcshane.search.boot;
 
 import java.nio.file.Paths;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,14 +14,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mcshane.search.api.FileLoader;
 import com.mcshane.search.api.SearchStrategy;
-import com.mcshane.search.api.files.FileLoader;
+import com.mcshane.search.index.Indexer;
 
 @RestController
 public class SearchController {
 	
 	@Autowired
 	private FileLoader fileLoader;
+	
+	@Autowired
+	private Indexer indexer;
 
 	@Autowired
 	private Map<String,SearchStrategy> searchStrategies;
@@ -38,9 +44,23 @@ public class SearchController {
 			.executeSearch(input).toString(), HttpStatus.OK);
 	}
 	
-	@RequestMapping(method=RequestMethod.POST, value="/setHomeDirectory", produces={"application/json"})
+	@RequestMapping(method=RequestMethod.POST, value="/setHomeDirectory", produces={"application/json"}, consumes={"application/x-www-form-urlencoded"})
 	public ResponseEntity<String> setHomeDirectory(@RequestParam("path") String path) {
 		fileLoader.setHomeDirectory(Paths.get(path));
 		return new ResponseEntity<String>("Home directory set to " + path, HttpStatus.OK);
+	}
+	
+	@RequestMapping(method=RequestMethod.POST, value="/indexFiles", produces={"application/json"})
+	public ResponseEntity<String> indexFiles() {
+		
+		Runnable runnable = new Runnable() {
+			@Override
+			public void run() {
+				indexer.indexFiles();				
+			}
+		};
+		ExecutorService exec = Executors.newSingleThreadExecutor();
+		exec.submit(runnable);
+		return new ResponseEntity<String>("Indexing started", HttpStatus.OK);
 	}
 }
