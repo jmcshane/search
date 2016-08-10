@@ -1,22 +1,20 @@
 package com.mcshane.search.api;
 
-import java.io.File;
-
 public class LineSearchResult {
 	
 	private final int occurrences;
-	private final File doc;
+	private final String docName;
 	
-	public LineSearchResult(int occurrences, File doc) {
+	public LineSearchResult(int occurrences, String docName) {
 		this.occurrences = occurrences;
-		this.doc = doc;
+		this.docName = docName;
 	}
 
 	public int getOccurrences() {
 		return occurrences;
 	}
 
-	public File getDoc() {
-		return doc;
+	public String getDocName() {
+		return docName;
 	}
 }

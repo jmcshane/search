@@ -18,7 +18,7 @@ class TextSearchStrategySpec extends Specification {
 	
 	def setup() {
 		textSearchStrategy.fileLoader = loader
-		loader.setHomeDirectory(temporaryFolder.getRoot().toPath())
+		loader.setHomeDirectory(temporaryFolder.getRoot())
 		def file = temporaryFolder.newFile('test.txt')
 		file.withWriter ('UTF-8') { writer ->
 			writer.writeLine "This is the first line of text"

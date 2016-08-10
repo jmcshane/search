@@ -1,6 +1,5 @@
 package com.mcshane.search.text;
 
-import java.io.File;
 import java.util.function.BiFunction;
 
 import org.apache.commons.lang3.StringUtils;
@@ -16,10 +15,10 @@ public class TextSearchStrategy extends AbstractLineSearchStrategy implements Se
 
 	@Override
 	public Result executeSearch(String input) {
-		return resultGenerator(new BiFunction<File,String,LineSearchResult>(){
+		return resultGenerator(new BiFunction<String,String,LineSearchResult>(){
 				
 			@Override
-			public LineSearchResult apply(File doc, String line) {
+			public LineSearchResult apply(String doc, String line) {
 				int count = StringUtils.countMatches(line.toLowerCase(), input.toLowerCase());
 				if (count == 0) {
 					return null;

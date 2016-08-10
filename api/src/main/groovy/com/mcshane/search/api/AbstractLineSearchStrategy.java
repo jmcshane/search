@@ -1,6 +1,5 @@
 package com.mcshane.search.api;
 
-import java.io.File;
 import java.util.Objects;
 import java.util.function.BiFunction;
 
@@ -12,7 +11,7 @@ public abstract class AbstractLineSearchStrategy implements SearchStrategy{
 	protected FileLoader fileLoader;
 	
 	@SuppressWarnings("unchecked")
-	public Result resultGenerator(BiFunction<File, String, LineSearchResult> mapper) {
+	public Result resultGenerator(BiFunction<String, String, LineSearchResult> mapper) {
 		Result result = new Result();
 		long startTime = System.currentTimeMillis();
 		fileLoader

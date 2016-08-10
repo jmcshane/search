@@ -29,7 +29,7 @@ class IndexerSpec extends Specification {
 	
 	def setup() {
 		indexer.fileLoader = fileLoader
-		fileLoader.setHomeDirectory(temporaryFolder.getRoot().toPath())
+		fileLoader.setHomeDirectory(temporaryFolder.getRoot())
 		def file = temporaryFolder.newFile('test.txt')
 		file.withWriter ('UTF-8') { writer ->
 			writer.writeLine 'Two words'

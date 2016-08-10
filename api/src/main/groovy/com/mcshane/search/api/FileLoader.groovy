@@ -1,9 +1,8 @@
 package com.mcshane.search.api
 
 import groovy.io.FileType
-
-import java.nio.file.Path
-
+import java.io.File
+import java.util.List
 import org.springframework.stereotype.Service
 
 @Service
@@ -16,14 +15,14 @@ class FileLoader {
 		homeDirectory.eachFileRecurse (FileType.FILES) { locatedFile ->
 			Scanner scanner = new Scanner(locatedFile)
 			while(scanner.hasNextLine()) {
-				result << scanFunction.apply(locatedFile,scanner.nextLine())
+				result << scanFunction.apply(locatedFile.getName(),scanner.nextLine())
 			}
 		}
 		result
 	}
 
-	def void setHomeDirectory(Path directory) {
-		this.homeDirectory = directory.toFile();
+	def void setHomeDirectory(File directory) {
+		this.homeDirectory = directory
 	}
 	
 	def File getHomeDirectory() {

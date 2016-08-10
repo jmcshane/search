@@ -5,18 +5,46 @@ import java.nio.file.Path
 import spock.lang.Specification
 
 class ResultSpec extends Specification {
+	
+	def result;
+	
+	def setup() {
+		result = new Result()
+	}
 
-	/*void 'constructor sets values that are returned by getters'() {
+	def 'basic getter and setter test'() {
 		when:
-		def path = Mock(Path)
-		def namePath = Mock(Path)
-		1*path.getFileName() >> namePath
-		1*namePath.toString() >> "filename"
-		def metadata = [a:'b']
-		def doc = new SearchableDocument(path, metadata)
+		result.setTime(1)
 		then:
-		path == doc.getFilePath()
-		metadata == doc.getFileMetadata()
-		"filename" == doc.getFileName()
-	}*/
+		1 == result.time
+		[:] == result.getCounts()
+	}
+	
+	def 'addToCounts should check whether the document exists and increment'() {
+		given:
+		result.setCounts([doc1:3,doc2:4])
+		when:
+		result.addToCounts(new LineSearchResult(2,'doc2'))
+		result.addToCounts(new LineSearchResult(5,'doc3'))
+		def map = result.getCounts()
+		then:
+		map['doc1'] == 3
+		map['doc2'] == 6
+		map['doc3'] == 5
+	}
+	
+	def 'toString should order by occurrences'() {
+		given:
+		result.setTime 3
+		result.setCounts([doc1:3,doc3:1,doc5:7])
+		when:
+		def str = result.toString()
+		then:
+		str == '''\
+Search results :
+	doc5 - 7 matches
+	doc1 - 3 matches
+	doc3 - 1 match
+Elapsed time: 3 ms'''
+	}
 }

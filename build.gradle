@@ -1,7 +1,6 @@
 subprojects {
 	apply plugin: 'groovy'
 	apply plugin: 'eclipse'
-	apply plugin: 'jacoco'
 
 	repositories {
 	    mavenCentral()
@@ -22,4 +21,26 @@ subprojects {
 			compile project(":api")
 		}
 	}
+}
+
+allprojects {
+  apply plugin: 'jacoco'
+}
+
+task codeCoverageReport(type: JacocoReport) {
+
+    executionData fileTree(project.rootDir.absolutePath).include("**/build/jacoco/*.exec")
+
+    subprojects.each {
+       sourceSets it.sourceSets.main
+    }
+
+    reports {
+      html.enabled true
+      html.destination "${buildDir}/reports/jacoco"
+    }
+}
+
+codeCoverageReport.dependsOn {
+    subprojects*.test
 }

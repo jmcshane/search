@@ -18,7 +18,7 @@ class RegexSearchStrategySpec extends Specification {
 	def setup() {
 		regexSearchStrategy.fileLoader = loader
 		def file = temporaryFolder.newFile('test.txt')
-		loader.setHomeDirectory(temporaryFolder.getRoot().toPath())
+		loader.setHomeDirectory(temporaryFolder.getRoot())
 		file.withWriter ('UTF-8') { writer ->
 			writer.writeLine "This is the first line of text"
 			writer.writeLine "This is a second line"

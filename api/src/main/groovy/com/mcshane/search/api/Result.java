@@ -17,11 +17,11 @@ public class Result {
 	}
 	
 	public void addToCounts(LineSearchResult lineResult) {
-		if (counts.keySet().contains(lineResult.getDoc().getName())) {
-			counts.put(lineResult.getDoc().getName(),
-				counts.get(lineResult.getDoc().getName()) + lineResult.getOccurrences());
+		if (counts.keySet().contains(lineResult.getDocName())) {
+			counts.put(lineResult.getDocName(),
+				counts.get(lineResult.getDocName()) + lineResult.getOccurrences());
 		} else {
-			counts.put(lineResult.getDoc().getName(),lineResult.getOccurrences());
+			counts.put(lineResult.getDocName(),lineResult.getOccurrences());
 		}
 	}
 	
@@ -51,10 +51,18 @@ public class Result {
 					}
 				}				
 			})
-			.<String>map(e -> "\t" + e.getKey() + " - " + e.getValue() + " matches")
+			.<String>map(e -> "\t" + e.getKey() + " - " + e.getValue() + matchPluraization(e.getValue()))
 			.collect(Collectors.toList());
 		return "Search results :\n" + String.join("\n", reportResults)
 			+ "\nElapsed time: " + time + " ms";
 		
+	}
+	
+	private String matchPluraization(int value) {
+		if (value == 1) {
+			return " match";
+		} else {
+			return " matches";
+		}
 	}
 }

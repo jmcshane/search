@@ -46,7 +46,7 @@ public class SearchController {
 	
 	@RequestMapping(method=RequestMethod.POST, value="/setHomeDirectory", produces={"application/json"}, consumes={"application/x-www-form-urlencoded"})
 	public ResponseEntity<String> setHomeDirectory(@RequestParam("path") String path) {
-		fileLoader.setHomeDirectory(Paths.get(path));
+		fileLoader.setHomeDirectory(Paths.get(path).toFile());
 		return new ResponseEntity<String>("Home directory set to " + path, HttpStatus.OK);
 	}
 	

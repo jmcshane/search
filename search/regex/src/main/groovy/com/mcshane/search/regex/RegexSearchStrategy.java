@@ -21,9 +21,9 @@ public class RegexSearchStrategy extends AbstractLineSearchStrategy implements S
 			input = "(?i)" + input;
 		}
 		final Pattern pattern = Pattern.compile(input);
-		return resultGenerator(new BiFunction<File,String,LineSearchResult>(){
+		return resultGenerator(new BiFunction<String,String,LineSearchResult>(){
 			@Override
-			public LineSearchResult apply(File doc, String line) {
+			public LineSearchResult apply(String doc, String line) {
 				int count = 0;
 				Matcher matcher = pattern.matcher(line);
 				while (matcher.find()) {
