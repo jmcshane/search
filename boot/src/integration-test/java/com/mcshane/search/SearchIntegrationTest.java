@@ -28,7 +28,7 @@ import com.carrotsearch.junitbenchmarks.annotation.AxisRange;
 import com.carrotsearch.junitbenchmarks.annotation.BenchmarkMethodChart;
 
 @AxisRange(min = 0, max = 0.1)
-@BenchmarkMethodChart(filePrefix = "benchmark-lists")
+@BenchmarkMethodChart(filePrefix = "build/benchmark/benchmark-lists")
 public class SearchIntegrationTest {
 	
 	private static final RestTemplate restTemplate = new RestTemplate();
@@ -53,6 +53,7 @@ public class SearchIntegrationTest {
 		File log = new File("build/boot.log");
 		pb.redirectErrorStream(true);
 		pb.redirectOutput(Redirect.to(log));
+		System.out.println("Starting process");
 		process = pb.start();
 		int i = 0;
 		
@@ -79,7 +80,7 @@ public class SearchIntegrationTest {
 	static CompletableFuture<Boolean> getRandomWords(ExecutorService executor) {
 		 return CompletableFuture.supplyAsync(() -> {
 			 int i = 0;
-				while (i < 1000) {
+				while (i < 10) {
 					String word = restTemplate
 						.getForObject("http://randomword.setgetgo.com/get.php", String.class);
 					words.add(word);
@@ -95,7 +96,7 @@ public class SearchIntegrationTest {
 	}
 
 	@Test
-	@BenchmarkOptions(callgc = false, benchmarkRounds = 20000, warmupRounds = 3)
+	@BenchmarkOptions(callgc = false, benchmarkRounds = 20, warmupRounds = 3)
 	public void textIntegrationTest() {
 		RestTemplate restTemplate = new RestTemplate();
 		Integer index = ThreadLocalRandom.current().nextInt(0, words.size());
@@ -106,7 +107,7 @@ public class SearchIntegrationTest {
 	}
 	
 	@Test
-	@BenchmarkOptions(callgc = false, benchmarkRounds = 20000, warmupRounds = 3)
+	@BenchmarkOptions(callgc = false, benchmarkRounds = 20, warmupRounds = 3)
 	public void regexIntegrationTest() {
 		RestTemplate restTemplate = new RestTemplate();
 		Integer index = ThreadLocalRandom.current().nextInt(0, words.size());
@@ -117,7 +118,7 @@ public class SearchIntegrationTest {
 	}
 	
 	@Test
-	@BenchmarkOptions(callgc = false, benchmarkRounds = 20000, warmupRounds = 3)
+	@BenchmarkOptions(callgc = false, benchmarkRounds = 20, warmupRounds = 3)
 	public void indexIntegrationTest() {
 		RestTemplate restTemplate = new RestTemplate();
 		Integer index = ThreadLocalRandom.current().nextInt(0, words.size());

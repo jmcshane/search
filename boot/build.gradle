@@ -25,3 +25,17 @@ dependencies {
 bootRepackage {
 	mainClass = 'com.mcshane.search.boot.Application'
 }
+
+integrationTest.dependsOn bootRepackage
+
+task createBenchmarkDir << {
+	new File("${project.buildDir}/benchmark").mkdir()
+}
+
+integrationTest.dependsOn createBenchmarkDir
+
+integrationTest {
+	systemProperty "jub.consumers", "XML,H2" 
+	systemProperty "jub.db.file", "build/benchmark/benchmark-mystuff"
+	systemProperty "jub.xml.file", "build/benchmark/benchmark.xml"
+}
