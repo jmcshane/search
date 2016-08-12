@@ -1,6 +1,6 @@
 # James McShane Search Implementation
 
-https://travis-ci.com/jmcshane/search.svg?token=DTFqirSewisgrLPaSZqZ&branch=master
+[![Build Status](https://travis-ci.com/jmcshane/search.svg?token=DTFqirSewisgrLPaSZqZ&branch=master)](https://travis-ci.com/jmcshane/search)
 
 This project carries out three search mechanisms:
 
