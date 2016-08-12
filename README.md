@@ -1,5 +1,7 @@
 # James McShane Search Implementation
 
+https://travis-ci.com/jmcshane/search.svg?token=DTFqirSewisgrLPaSZqZ&branch=master
+
 This project carries out three search mechanisms:
 
 * Full text document search
