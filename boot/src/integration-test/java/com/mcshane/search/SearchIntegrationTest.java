@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadLocalRandom;
 
 import org.apache.commons.lang3.StringUtils;
 import org.junit.AfterClass;
@@ -21,6 +22,7 @@ import org.junit.Test;
 import org.junit.rules.TestRule;
 import org.springframework.web.client.RestTemplate;
 
+import com.carrotsearch.junitbenchmarks.BenchmarkOptions;
 import com.carrotsearch.junitbenchmarks.BenchmarkRule;
 
 public class SearchIntegrationTest {
@@ -67,7 +69,6 @@ public class SearchIntegrationTest {
 			keepGettingWords = wordRetrievalThread.stream()
 				.reduce(false, (res, fut) -> res || ! fut.isDone(), (a,b) -> a || b);
 		}
-		System.out.println(words.size());
 	}
 	
 	static CompletableFuture<Boolean> getRandomWords(ExecutorService executor) {
@@ -89,9 +90,12 @@ public class SearchIntegrationTest {
 	}
 
 	@Test
+	@BenchmarkOptions(callgc = false, benchmarkRounds = 20, warmupRounds = 3)
 	public void textIntegrationTest() {
 		RestTemplate restTemplate = new RestTemplate();
-		String output = restTemplate.getForObject("http://localhost:9999/greeting", String.class);
+		Integer index = ThreadLocalRandom.current().nextInt(0, words.size());
+		String output = restTemplate.getForObject("http://localhost:9999/search/text?input=" + words.get(index)
+			, String.class);
 		assertTrue(output != null);
 		assertTrue(!StringUtils.isEmpty(output));
 	}
