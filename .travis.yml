@@ -15,5 +15,7 @@ cache:
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
 
+services: mongodb
+
 script:
   - ./gradlew build -x integrationTest
