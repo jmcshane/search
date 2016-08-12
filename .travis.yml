@@ -16,5 +16,4 @@ cache:
     - $HOME/.gradle/wrapper/
 
 script:
-  - ./gradlew 
   - ./gradlew build -x integrationTest
