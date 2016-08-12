@@ -23,6 +23,8 @@ class Indexer {
 	private Datastore datastore;
 		
 	def void indexFiles() {
+		datastore.delete(datastore.createQuery(DocumentStore.class));
+		
 		fileLoader.homeDirectory.eachFileRecurse (FileType.FILES) { locatedFile ->
 			String text = locatedFile.text
 			text = text.replaceAll('[^A-Za-z\\s]','').toLowerCase()

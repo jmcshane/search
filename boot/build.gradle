@@ -1,20 +1,24 @@
 buildscript {
 	dependencies {
-		classpath("org.springframework.boot:spring-boot-gradle-plugin:1.4.0.RELEASE")
+		classpath('org.springframework.boot:spring-boot-gradle-plugin:1.4.0.RELEASE')
 	}
 	repositories {
 		mavenCentral()
 	}
 }
-apply from: 'https://raw.github.com/jmcshane/gradle-plugins/master/integration-test.gradle'
+apply from: 'gradle/integration-test.gradle'
 apply plugin: 'spring-boot'
 
 dependencies {
-	compile project(":search:regex")
-	compile project(":search:text")
-	compile project(":search:index")
-	compile "org.springframework.boot:spring-boot-starter-tomcat"
-	compile "org.springframework.boot:spring-boot-starter-web"
+	compile project(':search:regex')
+	compile project(':search:text')
+	compile project(':search:index')
+	compile 'org.springframework.boot:spring-boot-starter-tomcat'
+	compile 'org.springframework.boot:spring-boot-starter-web'
+	compile 'org.springframework.boot:spring-boot-starter-actuator'
+	testCompile 'org.springframework.boot:spring-boot-starter-test'
+	testCompile 'org.spockframework:spock-spring:1.0-groovy-2.4'
+	testCompile 'com.carrotsearch:junit-benchmarks:0.7.2'
 }
 
 bootRepackage {

@@ -30,6 +30,11 @@ public class SearchController {
 	@Autowired
 	private Map<String,SearchStrategy> searchStrategies;
 	
+	@RequestMapping(method=RequestMethod.GET, value="/greeting", produces={"application/json"})
+	public ResponseEntity<String> greet() {
+		return new ResponseEntity<String>("Hello", HttpStatus.OK);
+	}
+	
 	@RequestMapping(method=RequestMethod.GET, value="/search/{searchStrategy}", produces={"application/json"})
 	public ResponseEntity<String> executeSearch(
 			@PathVariable("searchStrategy") String searchStrategy, 

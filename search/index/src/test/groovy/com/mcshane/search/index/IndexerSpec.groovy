@@ -51,7 +51,7 @@ class IndexerSpec extends Specification {
 		Query q2 = Mock()
 		Query q3 = Mock()
 		UpdateOperations update = Mock()
-		3*datastore.createQuery(DocumentStore.class) >> query
+		4*datastore.createQuery(DocumentStore.class) >> query
 		1*query.filter('word ==','two') >> q1
 		1*query.filter('word ==','twice') >> q2
 		1*query.filter('word ==','words') >> q3
