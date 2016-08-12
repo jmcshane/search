@@ -19,6 +19,7 @@ dependencies {
 	testCompile 'org.springframework.boot:spring-boot-starter-test'
 	testCompile 'org.spockframework:spock-spring:1.0-groovy-2.4'
 	testCompile 'com.carrotsearch:junit-benchmarks:0.7.2'
+	testRuntime 'com.h2database:h2:1.4.192'
 }
 
 bootRepackage {

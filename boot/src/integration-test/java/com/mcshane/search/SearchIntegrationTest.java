@@ -24,7 +24,11 @@ import org.springframework.web.client.RestTemplate;
 
 import com.carrotsearch.junitbenchmarks.BenchmarkOptions;
 import com.carrotsearch.junitbenchmarks.BenchmarkRule;
+import com.carrotsearch.junitbenchmarks.annotation.AxisRange;
+import com.carrotsearch.junitbenchmarks.annotation.BenchmarkMethodChart;
 
+@AxisRange(min = 0, max = 0.1)
+@BenchmarkMethodChart(filePrefix = "benchmark-lists")
 public class SearchIntegrationTest {
 	
 	private static final RestTemplate restTemplate = new RestTemplate();
@@ -36,6 +40,7 @@ public class SearchIntegrationTest {
 	static Process process = null;
 	static List<String> words = Collections.synchronizedList(new ArrayList<>());
 	
+	@SuppressWarnings("unchecked")
 	@BeforeClass
 	public static void initTest() throws IOException, InterruptedException {
 		ExecutorService wordExecutor = Executors.newFixedThreadPool(5);
@@ -95,6 +100,28 @@ public class SearchIntegrationTest {
 		RestTemplate restTemplate = new RestTemplate();
 		Integer index = ThreadLocalRandom.current().nextInt(0, words.size());
 		String output = restTemplate.getForObject("http://localhost:9999/search/text?input=" + words.get(index)
+			, String.class);
+		assertTrue(output != null);
+		assertTrue(!StringUtils.isEmpty(output));
+	}
+	
+	@Test
+	@BenchmarkOptions(callgc = false, benchmarkRounds = 20000, warmupRounds = 3)
+	public void regexIntegrationTest() {
+		RestTemplate restTemplate = new RestTemplate();
+		Integer index = ThreadLocalRandom.current().nextInt(0, words.size());
+		String output = restTemplate.getForObject("http://localhost:9999/search/regex?input=" + words.get(index)
+			, String.class);
+		assertTrue(output != null);
+		assertTrue(!StringUtils.isEmpty(output));
+	}
+	
+	@Test
+	@BenchmarkOptions(callgc = false, benchmarkRounds = 20000, warmupRounds = 3)
+	public void indexIntegrationTest() {
+		RestTemplate restTemplate = new RestTemplate();
+		Integer index = ThreadLocalRandom.current().nextInt(0, words.size());
+		String output = restTemplate.getForObject("http://localhost:9999/search/index?input=" + words.get(index)
 			, String.class);
 		assertTrue(output != null);
 		assertTrue(!StringUtils.isEmpty(output));
