@@ -95,7 +95,7 @@ public class SearchIntegrationTest {
 	}
 
 	@Test
-	@BenchmarkOptions(callgc = false, benchmarkRounds = 20, warmupRounds = 3)
+	@BenchmarkOptions(callgc = false, benchmarkRounds = 20000, warmupRounds = 3)
 	public void textIntegrationTest() {
 		RestTemplate restTemplate = new RestTemplate();
 		Integer index = ThreadLocalRandom.current().nextInt(0, words.size());

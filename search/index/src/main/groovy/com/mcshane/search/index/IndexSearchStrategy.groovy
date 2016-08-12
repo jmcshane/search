@@ -18,7 +18,12 @@ class IndexSearchStrategy implements SearchStrategy {
 	public Result executeSearch(String input) {
 		def searchResult = new Result()
 		long start = System.currentTimeMillis();
-		searchResult.setCounts datastore.createQuery(DocumentStore.class).filter('word ==',input).get().toCountsMap()	
+		DocumentStore doc = datastore.createQuery(DocumentStore.class).filter('word ==',input).get()
+		if (doc == null) {
+			searchResult.setCounts [:]
+		} else {
+			searchResult.setCounts doc.toCountsMap()	
+		}
 		searchResult.setTime System.currentTimeMillis() - start
 		return searchResult
 	}
