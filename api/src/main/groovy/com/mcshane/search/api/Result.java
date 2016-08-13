@@ -33,6 +33,10 @@ public class Result {
 		this.counts = counts;
 	}
 	
+	public long getTime() {
+		return this.time;
+	}
+	
 	public void setTime(long time) {
 		this.time = time;
 	}

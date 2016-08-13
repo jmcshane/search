@@ -27,5 +27,4 @@ class IndexSearchStrategy implements SearchStrategy {
 		searchResult.setTime System.currentTimeMillis() - start
 		return searchResult
 	}
-
 }
