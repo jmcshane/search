@@ -1,5 +1,6 @@
 package com.mcshane.search.boot;
 
+import java.io.File;
 import java.nio.file.Paths;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
@@ -30,11 +31,6 @@ public class SearchController {
 	@Autowired
 	private Map<String,SearchStrategy> searchStrategies;
 	
-	@RequestMapping(method=RequestMethod.GET, value="/greeting", produces={"application/json"})
-	public ResponseEntity<String> greet() {
-		return new ResponseEntity<String>("Hello", HttpStatus.OK);
-	}
-	
 	@RequestMapping(method=RequestMethod.GET, value="/search/{searchStrategy}", produces={"application/json"})
 	public ResponseEntity<String> executeSearch(
 			@PathVariable("searchStrategy") String searchStrategy, 
@@ -43,7 +39,7 @@ public class SearchController {
 		
 		if (!searchStrategies.containsKey(searchStrategy)) {
 			return new ResponseEntity<String>("Invalid entry.  Valid search strategies are " + searchStrategies.keySet().toString(),
-				HttpStatus.BAD_REQUEST);
+				HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<String>(searchStrategies.get(searchStrategy)
 			.executeSearch(input).toString(), HttpStatus.OK);
@@ -51,7 +47,13 @@ public class SearchController {
 	
 	@RequestMapping(method=RequestMethod.POST, value="/setHomeDirectory", produces={"application/json"}, consumes={"application/x-www-form-urlencoded"})
 	public ResponseEntity<String> setHomeDirectory(@RequestParam("path") String path) {
-		fileLoader.setHomeDirectory(Paths.get(path).toFile());
+		File homeDir;
+		try {
+			homeDir = Paths.get(path).toFile();
+		} catch(Exception e) {
+			return new ResponseEntity<String>("Invalid directory", HttpStatus.NOT_FOUND);
+		}
+		fileLoader.setHomeDirectory(homeDir);
 		return new ResponseEntity<String>("Home directory set to " + path, HttpStatus.OK);
 	}
 	
@@ -66,6 +68,6 @@ public class SearchController {
 		};
 		ExecutorService exec = Executors.newSingleThreadExecutor();
 		exec.submit(runnable);
-		return new ResponseEntity<String>("Indexing started", HttpStatus.OK);
+		return new ResponseEntity<String>("Indexing started", HttpStatus.ACCEPTED);
 	}
 }

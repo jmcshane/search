@@ -34,10 +34,6 @@ public class DocumentStore {
 		return results.stream()
 			.collect(Collectors.toMap(DocumentResult::getFilename, DocumentResult::getCount));
 	}
-	
-	public ObjectId getId() {
-		return this.id;
-	}
 
 	public String getWord() {
 		return word;

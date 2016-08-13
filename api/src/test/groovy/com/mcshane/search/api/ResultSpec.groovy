@@ -33,16 +33,17 @@ class ResultSpec extends Specification {
 		map['doc3'] == 5
 	}
 	
-	def 'toString should order by occurrences'() {
+	def 'toString should order by occurrences then name'() {
 		given:
 		result.setTime 3
-		result.setCounts([doc1:3,doc3:1,doc5:7])
+		result.setCounts([doc1:3,doc3:1,doc5:7,doc7:7])
 		when:
 		def str = result.toString()
 		then:
 		str == '''\
 Search results :
 	doc5 - 7 matches
+	doc7 - 7 matches
 	doc1 - 3 matches
 	doc3 - 1 match
 Elapsed time: 3 ms'''
