@@ -67,9 +67,10 @@ Elapsed time: 4 ms''' == resp.getBody()
 	
 	def 'setHomeDirectory returns 404 status on invalidDirectory'() {
 		when:
-		def resp = searchController.setHomeDirectory('http://fail')
+		def resp1 = searchController.setHomeDirectory('http://fail')
+		def resp2 = searchController.setHomeDirectory(temporaryFolder.newFile().getAbsolutePath())
 		then:
-		HttpStatus.NOT_FOUND == resp.getStatusCode()
+		HttpStatus.NOT_FOUND == resp1.getStatusCode()
 	}
 	
 	def 'indexFiles delegates to indexer and returns 202'() {

@@ -50,6 +50,9 @@ public class SearchController {
 		File homeDir;
 		try {
 			homeDir = Paths.get(path).toFile();
+			if (!homeDir.isDirectory()) {
+				throw new RuntimeException(homeDir + " is not directory");
+			}
 		} catch(Exception e) {
 			return new ResponseEntity<String>("Invalid directory", HttpStatus.NOT_FOUND);
 		}
