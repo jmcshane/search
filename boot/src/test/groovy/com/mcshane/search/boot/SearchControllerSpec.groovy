@@ -67,7 +67,7 @@ Elapsed time: 4 ms''' == resp.getBody()
 	
 	def 'setHomeDirectory returns 404 status on invalidDirectory'() {
 		when:
-		def resp = searchController.setHomeDirectory('!@#$%^&*')
+		def resp = searchController.setHomeDirectory('!@#$%^&*?\1')
 		then:
 		HttpStatus.NOT_FOUND == resp.getStatusCode()
 	}
