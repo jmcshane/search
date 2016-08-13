@@ -35,7 +35,7 @@ class SearchControllerSpec extends Specification {
 
 	def 'when searchStrategy is not present, 404 status is returned'() {
 		when:
-		def resp = searchController.executeSearch("searching","text")
+		def resp = searchController.executeSearch('searching','text')
 		then:
 		HttpStatus.NOT_FOUND == resp.getStatusCode()
 	}
@@ -45,8 +45,8 @@ class SearchControllerSpec extends Specification {
 		Result result = new Result()
 		result.setTime(4)
 		result.setCounts([file1:5])
-		1*search.executeSearch("text") >> result
-		def resp = searchController.executeSearch("search","text")
+		1*search.executeSearch('text') >> result
+		def resp = searchController.executeSearch('search','text')
 		then:
 		HttpStatus.OK == resp.getStatusCode()
 		'''\
@@ -67,7 +67,7 @@ Elapsed time: 4 ms''' == resp.getBody()
 	
 	def 'setHomeDirectory returns 404 status on invalidDirectory'() {
 		when:
-		def resp = searchController.setHomeDirectory('!@#$%^&*?\1')
+		def resp = searchController.setHomeDirectory('http://fail')
 		then:
 		HttpStatus.NOT_FOUND == resp.getStatusCode()
 	}
