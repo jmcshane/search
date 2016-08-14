@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Search site">
+    <meta name="author" content="James McShane">
+	  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+	  <title>Search Page</title>
+	
+  </head>
+  <body>
+      <div class="container">
+
+      <form class="form-search" onsubmit="return false;">
+        <h2 class="search-heading">Search</h2>
+        <div class="form-group">
+        <label for="searchInput" class="sr-only">Search Input</label>
+        <input type="text" id="searchInput" class="form-control" placeholder="Search Input" required autofocus>
+        </div>
+        <div class="form-group">
+        <label for="inputType" class="sr-only">Search Type</label>
+        <select id="inputType" class="form-control">
+          <option value="text">Text Search</option>
+          <option value="regex">Regex Search</option>
+          <option value="index">Index Search</option>
+        </select>
+        </div>
+        <button class="btn btn-lg btn-primary btn-block" type="submit" id="searchSubmit">Search</button>
+        <div class="form-group">
+          <label for="result">Search Result:</label>
+          <textarea class="form-control" rows="6" id="result"></textarea>
+        </div>
+      </form>
+
+    </div>
+    <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="app.js" type="text/javascript"></script>
+  </body>
+</html>
