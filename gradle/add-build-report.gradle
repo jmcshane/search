@@ -9,7 +9,7 @@ task addBuild << {
 	</td>
 	</tr>
 	"""
-	newRow = new XmlParser( false, true ).parseText( newNode )
+	def newRow = new XmlParser( false, true ).parseText( newNode )
 	xml.find {it.name() == 'table'}.children().add(newRow)
 	new XmlNodePrinter(new PrintWriter(new FileWriter(xmlFile))).print(xml)
 }

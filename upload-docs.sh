@@ -12,7 +12,7 @@ git config --global user.name "travis-ci"
 git clone --quiet --branch=gh-pages https://${GH_TOKEN}@github.com/jmcshane/search gh-pages > /dev/null
 
 mkdir -p gh-pages/$DATE_FOLDER/reports/
-cp -R reports gh-pages/$DATE_FOLDER/reports/
+cp -R reports gh-pages/$DATE_FOLDER/
 mv $HOME/gradlew gh-pages
 mkdir -p gh-pages/gradle
 mv -v $HOME/gradle/* gh-pages/gradle
