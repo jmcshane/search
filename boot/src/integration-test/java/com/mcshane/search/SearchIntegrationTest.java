@@ -4,6 +4,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -29,10 +30,10 @@ import com.carrotsearch.junitbenchmarks.annotation.BenchmarkMethodChart;
 @AxisRange(min = 0, max = 0.1)
 @BenchmarkMethodChart(filePrefix = "build/benchmark/search-benchmark")
 public class SearchIntegrationTest {
-	
+
 	private static final RestTemplate restTemplate = new RestTemplate();
 	
-	private static final String SEARCH_URL = "http://0.0.0.0:9999/";
+	private static String SEARCH_URL;
 	
 	private static AtomicInteger textCounter = new AtomicInteger();
 	private static AtomicInteger indexCounter = new AtomicInteger();
@@ -48,6 +49,8 @@ public class SearchIntegrationTest {
 	@SuppressWarnings("unchecked")
 	@BeforeClass
 	public static void initTest() throws IOException, InterruptedException {
+		String address = InetAddress.getLocalHost().getHostAddress();
+		SEARCH_URL = "http://"+address+":9999/";
 		ExecutorService wordExecutor = Executors.newFixedThreadPool(5);
 		List<CompletableFuture<Boolean>> wordRetrievalThread = new ArrayList<>();
 		for (int i = 0; i < 5; i++) {
@@ -111,7 +114,7 @@ public class SearchIntegrationTest {
 	@BenchmarkOptions(callgc = false, benchmarkRounds = 20, warmupRounds = 3)
 	public void textIntegrationTest() {
 		RestTemplate restTemplate = new RestTemplate();
-		String output = restTemplate.getForObject("http://0.0.0.0:9999/search/text?input=" 
+		String output = restTemplate.getForObject(SEARCH_URL + "search/text?input=" 
 			+ words.get(textCounter.getAndIncrement() % totalSearchTerms)
 			, String.class);
 		assertTrue(output != null);
@@ -122,7 +125,7 @@ public class SearchIntegrationTest {
 	@BenchmarkOptions(callgc = false, benchmarkRounds = 20, warmupRounds = 3)
 	public void regexIntegrationTest() {
 		RestTemplate restTemplate = new RestTemplate();
-		String output = restTemplate.getForObject("http://0.0.0.0:9999/search/regex?input=" 
+		String output = restTemplate.getForObject(SEARCH_URL + "search/regex?input=" 
 			+ words.get(regexCounter.getAndIncrement() % totalSearchTerms)
 			, String.class);
 		assertTrue(output != null);
@@ -133,7 +136,7 @@ public class SearchIntegrationTest {
 	@BenchmarkOptions(callgc = false, benchmarkRounds = 20, warmupRounds = 3)
 	public void indexIntegrationTest() {
 		RestTemplate restTemplate = new RestTemplate();
-		String output = restTemplate.getForObject("http://0.0.0.0:9999/search/index?input=" 
+		String output = restTemplate.getForObject(SEARCH_URL + "search/index?input=" 
 			+ words.get(indexCounter.getAndIncrement() % totalSearchTerms)
 			, String.class);
 		assertTrue(output != null);
