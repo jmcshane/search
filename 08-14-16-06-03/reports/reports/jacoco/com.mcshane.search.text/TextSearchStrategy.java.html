@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>TextSearchStrategy.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">search</a> &gt; <a href="index.source.html" class="el_package">com.mcshane.search.text</a> &gt; <span class="el_source">TextSearchStrategy.java</span></div><h1>TextSearchStrategy.java</h1><pre class="source lang-java linenums">package com.mcshane.search.text;
+
+import java.util.function.BiFunction;
+
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Service;
+
+import com.mcshane.search.api.AbstractLineSearchStrategy;
+import com.mcshane.search.api.LineSearchResult;
+import com.mcshane.search.api.Result;
+import com.mcshane.search.api.SearchStrategy;
+
+@Service(&quot;text&quot;)
+<span class="fc" id="L14">public class TextSearchStrategy extends AbstractLineSearchStrategy implements SearchStrategy {</span>
+
+	@Override
+	public Result executeSearch(String input) {
+<span class="fc" id="L18">		return resultGenerator(new BiFunction&lt;String,String,LineSearchResult&gt;(){</span>
+				
+			@Override
+			public LineSearchResult apply(String doc, String line) {
+<span class="fc" id="L22">				int count = StringUtils.countMatches(line.toLowerCase(), input.toLowerCase());</span>
+<span class="fc bfc" id="L23" title="All 2 branches covered.">				if (count == 0) {</span>
+<span class="fc" id="L24">					return null;</span>
+				}
+<span class="fc" id="L26">				return new LineSearchResult(count,doc);</span>
+			}
+		});
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.1.201405082137</span></div></body></html>
