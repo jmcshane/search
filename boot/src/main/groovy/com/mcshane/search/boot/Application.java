@@ -1,7 +1,5 @@
 package com.mcshane.search.boot;
 
-import java.nio.file.Paths;
-
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +8,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
-import com.mcshane.search.api.FileLoader;
 import com.mcshane.search.index.Indexer;
 
 @SpringBootApplication
@@ -25,14 +22,14 @@ public class Application {
 	private String homeDirectory;
 	
 	@Autowired
-	FileLoader fileLoader;
+	SearchController searchController;
 	
 	@Autowired
 	Indexer indexer;
 	
 	@PostConstruct
 	private void init() {
-		fileLoader.setHomeDirectory(Paths.get(homeDirectory).toFile());
+		searchController.setHomeDirectory(homeDirectory);
 		indexer.indexFiles();
 	}
 }

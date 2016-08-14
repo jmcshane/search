@@ -48,7 +48,9 @@ public class SearchIntegrationTest {
 		for (int i = 0; i < 5; i++) {
 			wordRetrievalThread.add(getRandomWords(wordExecutor));
 		}
-		ProcessBuilder pb = new ProcessBuilder("java", "-jar", "boot.jar");
+		String testDir = System.getProperty("user.dir") + "/src/integration-test/resources/search";
+		ProcessBuilder pb = new ProcessBuilder("java", "-jar", "boot.jar",
+			"--home.directory=" + testDir);
 		pb.directory(new File("build/libs"));
 		File log = new File("build/boot.log");
 		pb.redirectErrorStream(true);
@@ -56,12 +58,13 @@ public class SearchIntegrationTest {
 		System.out.println("Starting process");
 		process = pb.start();
 		int i = 0;
-		
+		boolean up = false;
 		while (i < 200) {
 			try {
 				Map<String,Object> health = (Map<String,Object>) restTemplate
 					.getForObject(SEARCH_URL + "/health", Map.class);
 				if ("UP".equals(health.get("status"))) {
+					up = true;
 					break;
 				}
 				Thread.sleep(100);
@@ -69,6 +72,9 @@ public class SearchIntegrationTest {
 			} catch(Exception e) {
 				//keep going
 			}
+		}
+		if (!up) {
+			throw new RuntimeException("Fail to initialize boot.jar");
 		}
 		boolean keepGettingWords = true;
 		while (keepGettingWords) {

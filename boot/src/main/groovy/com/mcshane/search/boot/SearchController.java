@@ -6,6 +6,8 @@ import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +23,8 @@ import com.mcshane.search.index.Indexer;
 
 @RestController
 public class SearchController {
+	
+	private static final Logger logger = LoggerFactory.getLogger(SearchController.class);
 	
 	@Autowired
 	private FileLoader fileLoader;
@@ -47,6 +51,7 @@ public class SearchController {
 	
 	@RequestMapping(method=RequestMethod.POST, value="/setHomeDirectory", produces={"application/json"}, consumes={"application/x-www-form-urlencoded"})
 	public ResponseEntity<String> setHomeDirectory(@RequestParam("path") String path) {
+		logger.info("Requested to set home directory to {}", path);
 		File homeDir;
 		try {
 			homeDir = Paths.get(path).toFile();
@@ -62,7 +67,7 @@ public class SearchController {
 	
 	@RequestMapping(method=RequestMethod.POST, value="/indexFiles", produces={"application/json"})
 	public ResponseEntity<String> indexFiles() {
-		
+		logger.info("Begin indexing files");
 		Runnable runnable = new Runnable() {
 			@Override
 			public void run() {
