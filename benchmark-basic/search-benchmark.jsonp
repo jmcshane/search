@@ -1,0 +1,19 @@
+receiveJsonpData({
+"cols": [
+{"label": "method", "type": "string"},
+{"label": "Average time [s]", "type": "number"},
+{"label": "StdDev", "type": "number"},
+{"label": "GC time [s]", "type": "number"},
+{"label": "GC average [s]", "type": "number"},
+{"label": "StdDev", "type": "number"},
+{"label": "GC calls", "type": "number"},
+{"label": "benchmark rounds", "type": "number"},
+{"label": "warmup rounds", "type": "number"},
+{"label": "Total benchmark time", "type": "number"},
+{"label": "Total warmup time", "type": "number"}
+],
+"rows": [
+{"c": [{"v": "indexIntegrationTest"}, {"v": 0.03}, {"v": 0.01}, {"v": 0.0}, {"v": 0.0}, {"v": 0.0}, {"v": 3}, {"v": 20}, {"v": 3}, {"v": 0.64}, {"v": 0.34}]},
+{"c": [{"v": "textIntegrationTest"}, {"v": 0.03}, {"v": 0.01}, {"v": 0.0}, {"v": 0.0}, {"v": 0.0}, {"v": 3}, {"v": 20}, {"v": 3}, {"v": 0.5}, {"v": 0.16}]},
+{"c": [{"v": "regexIntegrationTest"}, {"v": 0.02}, {"v": 0.01}, {"v": 0.0}, {"v": 0.0}, {"v": 0.0}, {"v": 3}, {"v": 20}, {"v": 3}, {"v": 0.41}, {"v": 0.08}]}
+]});
