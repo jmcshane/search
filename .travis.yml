@@ -1,24 +1,21 @@
 language: java
-
 jdk:
-  - oraclejdk8
-
+- oraclejdk8
 os:
-  - linux
-
+- linux
 branches:
   only:
-    - master
-
+  - master
 cache:
   directories:
-    - $HOME/.gradle/caches/
-    - $HOME/.gradle/wrapper/
-
+  - "$HOME/.gradle/caches/"
+  - "$HOME/.gradle/wrapper/"
 services: mongodb
-
 script:
-  - ./gradlew build codeCoverageReport -x integrationTest
-
+- "./gradlew build codeCoverageReport -x integrationTest"
 after_success:
-  - bash <(curl -s https://codecov.io/bash)
+- bash <(curl -s https://codecov.io/bash)
+- sh upload-docs.sh
+env:
+  global:
+    secure: vA4+QTAvmr99SXa+uEES9pitD5Q9WKYC0N2gD5FlYgHdcs2h2LiJ5xoLNMaAZXWQYjnAP/dyqeUVtX5gt9yvbC5oyiGp3bZVH1PHH6Sjnz9nyc7rEB610UF1+j1zjnbbBvFHb2J86YD7ln9tUHU1kkupyofuuQ8q5MDMUtcUq4ztHSBmRXRgFILDfyc+DFJjHvnJUk57aEJToOwGbYT+nPsXeE/4AfculubnZlhdFpOXBU5om5gba8OAXttOPkfNf/WoH2ipRikVkEmUtcxK7vG6OJziZ5KclJ/lMLE9Pl/rioMJu3Uwpg4Ny2l69kBu6AaExjFhC7Fz0yfw/gWIxaqtTjAQs2dLt5j4PTBricKGDs72CDur8Euz5d7Zu2DrObPwYYLz2XcUPPpawARztaSOGJYITcqnA8pvZcgSa7Fh9EO20xBRIGP6uQepNiVqKk24SKShmqchTcSMsjaCkPxrwjlAtUyf9OVG1kHd3j8AIJy88KU0SQtTHmU4TmuxZXAChkpzc2fE3XnM8hCcEy+Y70eSrySxiXZWkA4QIGMeB7CQZZ2snY2CKr3fjVUSisECA92Wxxw8zgXEWlWwfDS+KDFtZjAgF82zJ9sDf01spktE8Lzy/j4Ciu20pN71nJgh1xLGSVgsifs10NP6awC6DOGLlgM3l1FEKTnt/0Y=

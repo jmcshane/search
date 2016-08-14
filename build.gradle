@@ -2,10 +2,6 @@ subprojects {
 	apply plugin: 'groovy'
 	apply plugin: 'eclipse'
 
-	repositories {
-	    mavenCentral()
-	}
-
 	dependencies {
 	    compile 'org.codehaus.groovy:groovy-all:2.4.6'
 	    compile 'org.springframework:spring-context:4.3.2.RELEASE'
@@ -25,6 +21,10 @@ subprojects {
 
 allprojects {
   apply plugin: 'jacoco'
+
+  repositories {
+    mavenCentral()
+  }
 }
 
 task codeCoverageReport(type: JacocoReport) {

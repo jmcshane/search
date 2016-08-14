@@ -28,7 +28,7 @@ import com.carrotsearch.junitbenchmarks.annotation.AxisRange;
 import com.carrotsearch.junitbenchmarks.annotation.BenchmarkMethodChart;
 
 @AxisRange(min = 0, max = 0.1)
-@BenchmarkMethodChart(filePrefix = "build/benchmark/benchmark-lists")
+@BenchmarkMethodChart(filePrefix = "build/benchmark/search-benchmark")
 public class SearchIntegrationTest {
 	
 	private static final RestTemplate restTemplate = new RestTemplate();
