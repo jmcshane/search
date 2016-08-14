@@ -25,5 +25,5 @@ rm -rf gradle/
 rm -f gradlew
 
 git add -f .
-git commit -m "Latest javadoc on successful travis build $TRAVIS_BUILD_NUMBER auto-pushed to gh-pages"
+git commit -m "Latest jacoco coverage report on successful travis build $TRAVIS_BUILD_NUMBER auto-pushed to gh-pages"
 git push -fq origin gh-pages > /dev/null
