@@ -45,3 +45,15 @@ The Spring Boot set of libraries allow for very simple configuration of Spring b
 MongoDB and Morphia is used to implement a pre-processed index search.  Morphia was selected because of how well it aligned with the data structure that the search algorithm used to organize the processed text.  Morphia's speed has improved dramatically over the last few release cycles while providing enough abstraction to write Java objects directly to MongoDB.  The `UpdateOperations` proved to be invaluable when indexing new files.  The Mongo collection was written in a way to make querying for word matches as simple as possible, while paying the price in update/delete performance.  This was chosen to be an adequate tradeoff given the interaction patterns that a search application will usually have.
 
 The Spock Framework is used for testing given its declarative structure and alignment with overall project structure.  Spock creates very simple data driven testing mechanisms with the `where:` instruction and an intuitive flow to creating the unit tests.  This framework was used for all unit tests, including the `@SpringBootTest` class which tests the Spring applicationContext startup.
+
+## Performance
+
+Performance evaluation was done using the JunitBenchmark library and initializing the Spring Boot jar that is repackaged by the gradle Spring Boot plugin.  Given three basic files, a performance evaluation was done against the three search types that was not conclusive.  With such a small amount of input, the difference between doing File IO on the three small text files and a query against MongoDB was minimal.
+
+![First Performance Test](initialRun.PNG)
+
+Then, a plain text version of the bible was added and a second performance test was run using just 20 queries.  This test was able to distinguish between the two search strategies very easily, as seen by the graph of results.
+
+![Second Performance Test](largeFile20runs.png)
+
+Finally, the number of random inputs was increased to 2 Million and run on an amazon-ec2 container to normalize the environment.  The results of this performance test show a clear delineation between the three search types.
