@@ -12,7 +12,8 @@ cache:
   - "$HOME/.gradle/wrapper/"
 services: mongodb
 script:
-- "./gradlew build integrationTest codeCoverageReport"
+- "./gradlew build codeCoverageReport -x integrationTest"
+- "./gradlew integrationTest"
 after_success:
 - bash <(curl -s https://codecov.io/bash)
 - sh upload-docs.sh
