@@ -15,7 +15,6 @@ cache:
 services: mongodb
 script:
 - "./gradlew build codeCoverageReport -x integrationTest"
-- "./gradlew integrationTest"
 after_success:
 - sh upload-docs.sh
 env:
