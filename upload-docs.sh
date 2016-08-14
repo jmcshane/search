@@ -11,8 +11,10 @@ git config --global user.email "travis@travis-ci.org"
 git config --global user.name "travis-ci"
 git clone --quiet --branch=gh-pages https://${GH_TOKEN}@github.com/jmcshane/search gh-pages > /dev/null
 
-cp -R reports gh-pages/$DATE_FOLDER/
+mkdir -p gh-pages/$DATE_FOLDER/reports/
+cp -R reports gh-pages/$DATE_FOLDER/reports/
 mv $HOME/gradlew gh-pages
+mkdir -p gh-pages/gradle
 mv -v $HOME/gradle/* gh-pages/gradle
 
 cd gh-pages
