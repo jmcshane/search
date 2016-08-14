@@ -13,6 +13,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.commons.lang3.StringUtils;
 import org.junit.AfterClass;
@@ -34,6 +35,12 @@ public class SearchIntegrationTest {
 	private static final RestTemplate restTemplate = new RestTemplate();
 	
 	private static final String SEARCH_URL = "http://localhost:9999/";
+	
+	private static AtomicInteger textCounter = new AtomicInteger();
+	private static AtomicInteger indexCounter = new AtomicInteger();
+	private static AtomicInteger regexCounter = new AtomicInteger();
+	
+	private static int totalSearchTerms;
 	@Rule
 	public TestRule benchmarkRun = new BenchmarkRule();
 	
@@ -81,6 +88,7 @@ public class SearchIntegrationTest {
 			keepGettingWords = wordRetrievalThread.stream()
 				.reduce(false, (res, fut) -> res || ! fut.isDone(), (a,b) -> a || b);
 		}
+		totalSearchTerms = words.size();
 	}
 	
 	static CompletableFuture<Boolean> getRandomWords(ExecutorService executor) {
@@ -105,8 +113,8 @@ public class SearchIntegrationTest {
 	@BenchmarkOptions(callgc = false, benchmarkRounds = 20, warmupRounds = 3)
 	public void textIntegrationTest() {
 		RestTemplate restTemplate = new RestTemplate();
-		Integer index = ThreadLocalRandom.current().nextInt(0, words.size());
-		String output = restTemplate.getForObject("http://localhost:9999/search/text?input=" + words.get(index)
+		String output = restTemplate.getForObject("http://localhost:9999/search/text?input=" 
+			+ words.get(textCounter.getAndIncrement() % totalSearchTerms)
 			, String.class);
 		assertTrue(output != null);
 		assertTrue(!StringUtils.isEmpty(output));
@@ -116,8 +124,8 @@ public class SearchIntegrationTest {
 	@BenchmarkOptions(callgc = false, benchmarkRounds = 20, warmupRounds = 3)
 	public void regexIntegrationTest() {
 		RestTemplate restTemplate = new RestTemplate();
-		Integer index = ThreadLocalRandom.current().nextInt(0, words.size());
-		String output = restTemplate.getForObject("http://localhost:9999/search/regex?input=" + words.get(index)
+		String output = restTemplate.getForObject("http://localhost:9999/search/regex?input=" 
+			+ words.get(regexCounter.getAndIncrement() % totalSearchTerms)
 			, String.class);
 		assertTrue(output != null);
 		assertTrue(!StringUtils.isEmpty(output));
@@ -127,8 +135,8 @@ public class SearchIntegrationTest {
 	@BenchmarkOptions(callgc = false, benchmarkRounds = 20, warmupRounds = 3)
 	public void indexIntegrationTest() {
 		RestTemplate restTemplate = new RestTemplate();
-		Integer index = ThreadLocalRandom.current().nextInt(0, words.size());
-		String output = restTemplate.getForObject("http://localhost:9999/search/index?input=" + words.get(index)
+		String output = restTemplate.getForObject("http://localhost:9999/search/index?input=" 
+			+ words.get(indexCounter.getAndIncrement() % totalSearchTerms)
 			, String.class);
 		assertTrue(output != null);
 		assertTrue(!StringUtils.isEmpty(output));

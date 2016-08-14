@@ -2,6 +2,7 @@
 DATE_FOLDER=$(date +"%m-%d-%y-%H-%M")
 
 cp -R build/reports/ $HOME/reports 
+cp boot/build/benchmark/search-benchmark.html $HOME
 
 cd $HOME
 git config --global user.email "travis@travis-ci.org"
@@ -11,6 +12,7 @@ git clone --quiet --branch=gh-pages https://${GH_TOKEN}@github.com/jmcshane/sear
 mkdir -p gh-pages/$DATE_FOLDER/benchmark
 
 cp -R reports gh-pages/$DATE_FOLDER/
+cp $HOME/search-benchmark.html gh-pages/$DATE_FOLDER/benchmark
 
 cd gh-pages
 
