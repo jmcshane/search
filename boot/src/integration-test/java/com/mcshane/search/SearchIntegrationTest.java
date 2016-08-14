@@ -67,7 +67,7 @@ public class SearchIntegrationTest {
 		process = pb.start();
 		int i = 0;
 		boolean up = false;
-		while (i < 200) {
+		while (i < 300) {
 			try {
 				Map<String,Object> health = (Map<String,Object>) restTemplate
 					.getForObject(SEARCH_URL + "/health", Map.class);
@@ -78,7 +78,7 @@ public class SearchIntegrationTest {
 			} catch(Exception e) {
 				//keep going
 			}
-			Thread.sleep(400);
+			Thread.sleep(4000);
 			i++;
 		}
 		if (!up) {

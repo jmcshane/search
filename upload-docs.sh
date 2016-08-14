@@ -21,7 +21,7 @@ if [ -f boot/build/benchmark/search-benchmark.html ]; then
 	cp $HOME/search-benchmark.html gh-pages/$DATE_FOLDER/benchmark
 fi
 mv $HOME/gradlew gh-pages
-mv -R $HOME/gradle gh-pages
+mv -v $HOME/gradle/* gh-pages/gradle
 
 cd gh-pages
 
@@ -32,6 +32,4 @@ rm -f gradlew
 
 git add -f .
 git commit -m "Latest javadoc on successful travis build $TRAVIS_BUILD_NUMBER auto-pushed to gh-pages"
-git remote -v
-git status
 git push -fq origin gh-pages > /dev/null
