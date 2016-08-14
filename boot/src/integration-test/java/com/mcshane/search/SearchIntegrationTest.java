@@ -78,7 +78,7 @@ public class SearchIntegrationTest {
 			} catch(Exception e) {
 				//keep going
 			}
-			Thread.sleep(100);
+			Thread.sleep(400);
 			i++;
 		}
 		if (!up) {

@@ -28,6 +28,9 @@ bootRepackage {
 
 integrationTest.dependsOn bootRepackage
 
+integrationTest {
+	ignoreFailures = true
+}
 task createBenchmarkDir << {
 	new File("${project.buildDir}/benchmark").mkdir()
 }

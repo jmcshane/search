@@ -5,7 +5,9 @@ cp -R build/reports/ $HOME/reports
 cp gradle/add-build-report.gradle $HOME
 cp -R gradle/ $HOME/gradle
 cp gradlew $HOME
-cp boot/build/benchmark/search-benchmark.html $HOME
+if [ -f boot/build/benchmark/search-benchmark.html ]; then
+	cp boot/build/benchmark/search-benchmark.html $HOME
+fi
 
 cd $HOME
 git config --global user.email "travis@travis-ci.org"
@@ -15,7 +17,9 @@ git clone --quiet --branch=gh-pages https://${GH_TOKEN}@github.com/jmcshane/sear
 mkdir -p gh-pages/$DATE_FOLDER/benchmark
 
 cp -R reports gh-pages/$DATE_FOLDER/
-cp $HOME/search-benchmark.html gh-pages/$DATE_FOLDER/benchmark
+if [ -f boot/build/benchmark/search-benchmark.html ]; then
+	cp $HOME/search-benchmark.html gh-pages/$DATE_FOLDER/benchmark
+fi
 mv $HOME/gradlew gh-pages
 mv -R $HOME/gradle gh-pages
 
