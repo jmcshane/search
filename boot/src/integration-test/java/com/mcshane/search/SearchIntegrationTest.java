@@ -4,7 +4,6 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.ProcessBuilder.Redirect;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -33,7 +32,7 @@ public class SearchIntegrationTest {
 	
 	private static final RestTemplate restTemplate = new RestTemplate();
 	
-	private static final String SEARCH_URL = "http://localhost:9999/";
+	private static final String SEARCH_URL = "http://0.0.0.0:9999/";
 	
 	private static AtomicInteger textCounter = new AtomicInteger();
 	private static AtomicInteger indexCounter = new AtomicInteger();
@@ -56,11 +55,11 @@ public class SearchIntegrationTest {
 		}
 		String testDir = System.getProperty("user.dir") + "/src/integration-test/resources/search";
 		ProcessBuilder pb = new ProcessBuilder("java", "-jar", "boot.jar",
-			"--home.directory=" + testDir);
+			"--home.directory=" + testDir).inheritIO();
 		pb.directory(new File("build/libs"));
-		File log = new File("build/boot.log");
+		/*File log = new File("build/boot.log");
 		pb.redirectErrorStream(true);
-		pb.redirectOutput(Redirect.to(log));
+		pb.redirectOutput(Redirect.to(log));*/
 		System.out.println("Starting process");
 		process = pb.start();
 		int i = 0;
@@ -73,11 +72,11 @@ public class SearchIntegrationTest {
 					up = true;
 					break;
 				}
-				Thread.sleep(100);
-				i++;
 			} catch(Exception e) {
 				//keep going
 			}
+			Thread.sleep(100);
+			i++;
 		}
 		if (!up) {
 			throw new RuntimeException("Fail to initialize boot.jar");
@@ -112,7 +111,7 @@ public class SearchIntegrationTest {
 	@BenchmarkOptions(callgc = false, benchmarkRounds = 20, warmupRounds = 3)
 	public void textIntegrationTest() {
 		RestTemplate restTemplate = new RestTemplate();
-		String output = restTemplate.getForObject("http://localhost:9999/search/text?input=" 
+		String output = restTemplate.getForObject("http://0.0.0.0:9999/search/text?input=" 
 			+ words.get(textCounter.getAndIncrement() % totalSearchTerms)
 			, String.class);
 		assertTrue(output != null);
@@ -123,7 +122,7 @@ public class SearchIntegrationTest {
 	@BenchmarkOptions(callgc = false, benchmarkRounds = 20, warmupRounds = 3)
 	public void regexIntegrationTest() {
 		RestTemplate restTemplate = new RestTemplate();
-		String output = restTemplate.getForObject("http://localhost:9999/search/regex?input=" 
+		String output = restTemplate.getForObject("http://0.0.0.0:9999/search/regex?input=" 
 			+ words.get(regexCounter.getAndIncrement() % totalSearchTerms)
 			, String.class);
 		assertTrue(output != null);
@@ -134,7 +133,7 @@ public class SearchIntegrationTest {
 	@BenchmarkOptions(callgc = false, benchmarkRounds = 20, warmupRounds = 3)
 	public void indexIntegrationTest() {
 		RestTemplate restTemplate = new RestTemplate();
-		String output = restTemplate.getForObject("http://localhost:9999/search/index?input=" 
+		String output = restTemplate.getForObject("http://0.0.0.0:9999/search/index?input=" 
 			+ words.get(indexCounter.getAndIncrement() % totalSearchTerms)
 			, String.class);
 		assertTrue(output != null);

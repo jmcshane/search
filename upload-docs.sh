@@ -2,6 +2,9 @@
 DATE_FOLDER=$(date +"%m-%d-%y-%H-%M")
 
 cp -R build/reports/ $HOME/reports 
+cp gradle/add-build-report.gradle $HOME
+cp -R gradle/ $HOME/gradle
+cp gradlew $HOME
 cp boot/build/benchmark/search-benchmark.html $HOME
 
 cd $HOME
@@ -13,8 +16,15 @@ mkdir -p gh-pages/$DATE_FOLDER/benchmark
 
 cp -R reports gh-pages/$DATE_FOLDER/
 cp $HOME/search-benchmark.html gh-pages/$DATE_FOLDER/benchmark
+mv $HOME/gradlew gh-pages
+mv -R $HOME/gradle gh-pages
 
 cd gh-pages
+
+./gradlew -b gradle/add-build-report.gradle addBuild -Pfolderdate=$DATE_FOLDER
+
+rm -rf gradle/
+rm -f gradlew
 
 git add -f .
 git commit -m "Latest javadoc on successful travis build $TRAVIS_BUILD_NUMBER auto-pushed to gh-pages"

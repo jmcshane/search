@@ -1,0 +1,15 @@
+task addBuild << {
+
+	def dateObj = new java.text.SimpleDateFormat("MM-dd-yy-HH-mm").parse(folderdate)
+	def datelink = new java.text.SimpleDateFormat("MMM dd, yyyy HH:mm").format(dateObj)
+	def xmlFile = "index.html"
+	def xml = new XmlParser().parse(xmlFile)
+	def newNode = """<tr>
+	<td><a href='https://jmcshane.github.io/search/${date}/reports/jacoco/'>${datelink}</a>
+	</td>
+	</tr>
+	"""
+	newRow = new XmlParser( false, true ).parseText( newNode )
+	xml.find {it.name() == 'table'}.children().add(newRow)
+	new XmlNodePrinter(new PrintWriter(new FileWriter(xmlFile))).print(xml)
+}
