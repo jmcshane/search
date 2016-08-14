@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>MongoConfig.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">search</a> &gt; <a href="index.source.html" class="el_package">com.mcshane.search.index</a> &gt; <span class="el_source">MongoConfig.java</span></div><h1>MongoConfig.java</h1><pre class="source lang-java linenums">package com.mcshane.search.index;
+
+import org.mongodb.morphia.Datastore;
+import org.mongodb.morphia.Morphia;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+
+import com.mongodb.MongoClient;
+
+@Configuration
+<span class="fc" id="L13">public class MongoConfig {</span>
+	
+	@Value(&quot;${mongodb.url:localhost:27017}&quot;)
+	private String mongoUrl;
+	
+	@Value(&quot;${mongodb.dbname:test}&quot;)
+	private String dbName;
+	
+	@Value(&quot;${mongodb.collection:index}&quot;)
+	private String collName;
+	
+	@Bean
+	public Datastore mongoDatabase() {
+<span class="fc" id="L26">		Morphia morphia = new Morphia();</span>
+<span class="fc" id="L27">		morphia.mapPackage(&quot;com.mcshane.search.index.domain&quot;);</span>
+<span class="fc" id="L28">		final Datastore datastore = morphia.createDatastore(new MongoClient(mongoUrl), &quot;morphia_index&quot;);</span>
+<span class="fc" id="L29">		datastore.ensureIndexes();</span>
+<span class="fc" id="L30">		return datastore;</span>
+	}
+
+    @Bean
+    public static PropertySourcesPlaceholderConfigurer propertyConfigurer() {
+<span class="fc" id="L35">       return new PropertySourcesPlaceholderConfigurer();</span>
+    }	
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.1.201405082137</span></div></body></html>
