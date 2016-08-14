@@ -5,7 +5,7 @@ task addBuild << {
 	def xmlFile = "index.html"
 	def xml = new XmlParser().parse(xmlFile)
 	def newNode = """<tr>
-	<td><a href='https://jmcshane.github.io/search/${date}/reports/jacoco/'>${datelink}</a>
+	<td><a href='https://jmcshane.github.io/search/${folderdate}/reports/jacoco/'>${datelink}</a>
 	</td>
 	</tr>
 	"""
