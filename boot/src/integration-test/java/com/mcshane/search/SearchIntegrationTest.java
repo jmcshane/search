@@ -65,7 +65,7 @@ public class SearchIntegrationTest {
 		/*File log = new File("build/boot.log");
 		pb.redirectErrorStream(true);
 		pb.redirectOutput(Redirect.to(log));*/
-		logger.info("Starting process");
+		logger.warn("Starting process");
 		process = pb.start();
 		int i = 0;
 		boolean up = false;
@@ -91,7 +91,7 @@ public class SearchIntegrationTest {
 			keepGettingWords = wordRetrievalThread.stream()
 				.reduce(false, (res, fut) -> res || ! fut.isDone(), (a,b) -> a || b);
 		}
-		logger.info("Ready to begin");
+		logger.warn("Ready to begin");
 		totalSearchTerms = words.size();
 	}
 	
@@ -124,7 +124,7 @@ public class SearchIntegrationTest {
 		assertTrue(!StringUtils.isEmpty(output));
 		int text = textCounter.get();
 		if (text % 1000 == 0) {
-			logger.info("Text at {}", text);
+			logger.warn("Text at {}", text);
 		}
 	}
 	
@@ -139,7 +139,7 @@ public class SearchIntegrationTest {
 		assertTrue(!StringUtils.isEmpty(output));
 		int text = regexCounter.get();
 		if (text % 1000 == 0) {
-			logger.info("Text at {}", text);
+			logger.warn("Text at {}", text);
 		}
 	}
 	
@@ -154,7 +154,7 @@ public class SearchIntegrationTest {
 		assertTrue(!StringUtils.isEmpty(output));
 		int text = indexCounter.get();
 		if (text % 1000 == 0) {
-			logger.info("Text at {}", text);
+			logger.warn("Text at {}", text);
 		}
 
 	}

@@ -37,9 +37,6 @@ task createBenchmarkDir << {
 
 integrationTest.dependsOn createBenchmarkDir
 
-jacoco {
-	excludes = ["com/mcshane/search/SearchIntegrationTest"]
-}
 integrationTest {
 	systemProperty "jub.consumers", "XML,H2" 
 	systemProperty "jub.db.file", "build/benchmark/benchmark-mystuff"
