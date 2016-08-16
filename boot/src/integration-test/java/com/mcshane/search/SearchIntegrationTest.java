@@ -4,7 +4,6 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -20,6 +19,8 @@ import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestRule;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.client.RestTemplate;
 
 import com.carrotsearch.junitbenchmarks.BenchmarkOptions;
@@ -27,9 +28,11 @@ import com.carrotsearch.junitbenchmarks.BenchmarkRule;
 import com.carrotsearch.junitbenchmarks.annotation.AxisRange;
 import com.carrotsearch.junitbenchmarks.annotation.BenchmarkMethodChart;
 
-@AxisRange(min = 0, max = 0.1)
+@AxisRange(min = 0, max = 0.2)
 @BenchmarkMethodChart(filePrefix = "build/benchmark/search-benchmark")
 public class SearchIntegrationTest {
+	
+	private static final Logger logger = LoggerFactory.getLogger(SearchIntegrationTest.class);
 
 	private static final RestTemplate restTemplate = new RestTemplate();
 	
@@ -49,8 +52,7 @@ public class SearchIntegrationTest {
 	@SuppressWarnings("unchecked")
 	@BeforeClass
 	public static void initTest() throws IOException, InterruptedException {
-		String address = InetAddress.getLocalHost().getHostAddress();
-		SEARCH_URL = "http://"+address+":9999/";
+		SEARCH_URL = "http://127.0.0.1:9999/";
 		ExecutorService wordExecutor = Executors.newFixedThreadPool(5);
 		List<CompletableFuture<Boolean>> wordRetrievalThread = new ArrayList<>();
 		for (int i = 0; i < 5; i++) {
@@ -63,11 +65,11 @@ public class SearchIntegrationTest {
 		/*File log = new File("build/boot.log");
 		pb.redirectErrorStream(true);
 		pb.redirectOutput(Redirect.to(log));*/
-		System.out.println("Starting process");
+		logger.info("Starting process");
 		process = pb.start();
 		int i = 0;
 		boolean up = false;
-		while (i < 300) {
+		while (i < 10) {
 			try {
 				Map<String,Object> health = (Map<String,Object>) restTemplate
 					.getForObject(SEARCH_URL + "/health", Map.class);
@@ -89,13 +91,14 @@ public class SearchIntegrationTest {
 			keepGettingWords = wordRetrievalThread.stream()
 				.reduce(false, (res, fut) -> res || ! fut.isDone(), (a,b) -> a || b);
 		}
+		logger.info("Ready to begin");
 		totalSearchTerms = words.size();
 	}
 	
 	static CompletableFuture<Boolean> getRandomWords(ExecutorService executor) {
 		 return CompletableFuture.supplyAsync(() -> {
 			 int i = 0;
-				while (i < 10) {
+				while (i < 100) {
 					String word = restTemplate
 						.getForObject("http://randomword.setgetgo.com/get.php", String.class);
 					words.add(word);
@@ -111,7 +114,7 @@ public class SearchIntegrationTest {
 	}
 
 	@Test
-	@BenchmarkOptions(callgc = false, benchmarkRounds = 20, warmupRounds = 3)
+	@BenchmarkOptions(callgc = false, benchmarkRounds = 2000000, warmupRounds = 3, concurrency = 100)
 	public void textIntegrationTest() {
 		RestTemplate restTemplate = new RestTemplate();
 		String output = restTemplate.getForObject(SEARCH_URL + "search/text?input=" 
@@ -119,10 +122,14 @@ public class SearchIntegrationTest {
 			, String.class);
 		assertTrue(output != null);
 		assertTrue(!StringUtils.isEmpty(output));
+		int text = textCounter.get();
+		if (text % 1000 == 0) {
+			logger.info("Text at {}", text);
+		}
 	}
 	
 	@Test
-	@BenchmarkOptions(callgc = false, benchmarkRounds = 20, warmupRounds = 3)
+	@BenchmarkOptions(callgc = false, benchmarkRounds = 2000000, warmupRounds = 3, concurrency = 100)
 	public void regexIntegrationTest() {
 		RestTemplate restTemplate = new RestTemplate();
 		String output = restTemplate.getForObject(SEARCH_URL + "search/regex?input=" 
@@ -130,10 +137,14 @@ public class SearchIntegrationTest {
 			, String.class);
 		assertTrue(output != null);
 		assertTrue(!StringUtils.isEmpty(output));
+		int text = regexCounter.get();
+		if (text % 1000 == 0) {
+			logger.info("Text at {}", text);
+		}
 	}
 	
 	@Test
-	@BenchmarkOptions(callgc = false, benchmarkRounds = 20, warmupRounds = 3)
+	@BenchmarkOptions(callgc = false, benchmarkRounds = 2000000, warmupRounds = 3, concurrency = 100)
 	public void indexIntegrationTest() {
 		RestTemplate restTemplate = new RestTemplate();
 		String output = restTemplate.getForObject(SEARCH_URL + "search/index?input=" 
@@ -141,5 +152,10 @@ public class SearchIntegrationTest {
 			, String.class);
 		assertTrue(output != null);
 		assertTrue(!StringUtils.isEmpty(output));
+		int text = indexCounter.get();
+		if (text % 1000 == 0) {
+			logger.info("Text at {}", text);
+		}
+
 	}
 }
