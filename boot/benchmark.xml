@@ -1,0 +1,11 @@
+<benchmark-results tstamp="2016-08-16T23:05:41.049-0400">
+
+	<testname classname="com.mcshane.search.SearchIntegrationTest" name="indexIntegrationTest"
+		 benchmark-rounds="2000000" warmup-rounds="3"
+		 round-avg="1.174" round-stddev="0.866"
+		 gc-avg="0" gc-stddev="0.007"
+		 gc-invocations="17742" gc-time="253.281"
+		 benchmark-time-total="23488.617" warmup-time-total="0.03"
+		 threads="100"/>
+
+</benchmark-results>

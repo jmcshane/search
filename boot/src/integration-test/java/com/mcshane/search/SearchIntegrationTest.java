@@ -18,6 +18,7 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.Ignore;
 import org.junit.rules.TestRule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -69,7 +70,7 @@ public class SearchIntegrationTest {
 		process = pb.start();
 		int i = 0;
 		boolean up = false;
-		while (i < 10) {
+		while (i < 100) {
 			try {
 				Map<String,Object> health = (Map<String,Object>) restTemplate
 					.getForObject(SEARCH_URL + "/health", Map.class);
@@ -114,6 +115,7 @@ public class SearchIntegrationTest {
 	}
 
 	@Test
+	@Ignore
 	@BenchmarkOptions(callgc = false, benchmarkRounds = 2000000, warmupRounds = 3, concurrency = 100)
 	public void textIntegrationTest() {
 		RestTemplate restTemplate = new RestTemplate();
@@ -129,6 +131,7 @@ public class SearchIntegrationTest {
 	}
 	
 	@Test
+	@Ignore
 	@BenchmarkOptions(callgc = false, benchmarkRounds = 2000000, warmupRounds = 3, concurrency = 100)
 	public void regexIntegrationTest() {
 		RestTemplate restTemplate = new RestTemplate();
