@@ -56,4 +56,6 @@ Then, a plain text version of the bible was added and a second performance test 
 
 ![Second Performance Test](largeFile20runs.png)
 
-Finally, the number of random inputs was increased to 2 Million and run on an amazon-ec2 container to normalize the environment.  The results of this performance test show a clear delineation between the three search types.
+Finally, the number of random inputs was increased to 20000 and run with 100 concurrent users.  The distinction between the types of searches is clearer now with the concurrent requests.
+
+![Third Performance Test](20kconcurrent-itest.PNG)

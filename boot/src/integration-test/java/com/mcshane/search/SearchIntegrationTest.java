@@ -69,7 +69,7 @@ public class SearchIntegrationTest {
 		process = pb.start();
 		int i = 0;
 		boolean up = false;
-		while (i < 10) {
+		while (i < 1000) {
 			try {
 				Map<String,Object> health = (Map<String,Object>) restTemplate
 					.getForObject(SEARCH_URL + "/health", Map.class);
@@ -114,7 +114,7 @@ public class SearchIntegrationTest {
 	}
 
 	@Test
-	@BenchmarkOptions(callgc = false, benchmarkRounds = 2000000, warmupRounds = 3, concurrency = 100)
+	@BenchmarkOptions(callgc = false, benchmarkRounds = 20000, warmupRounds = 3, concurrency = 100)
 	public void textIntegrationTest() {
 		RestTemplate restTemplate = new RestTemplate();
 		String output = restTemplate.getForObject(SEARCH_URL + "search/text?input=" 
@@ -129,7 +129,7 @@ public class SearchIntegrationTest {
 	}
 	
 	@Test
-	@BenchmarkOptions(callgc = false, benchmarkRounds = 2000000, warmupRounds = 3, concurrency = 100)
+	@BenchmarkOptions(callgc = false, benchmarkRounds = 20000, warmupRounds = 3, concurrency = 100)
 	public void regexIntegrationTest() {
 		RestTemplate restTemplate = new RestTemplate();
 		String output = restTemplate.getForObject(SEARCH_URL + "search/regex?input=" 
@@ -144,7 +144,7 @@ public class SearchIntegrationTest {
 	}
 	
 	@Test
-	@BenchmarkOptions(callgc = false, benchmarkRounds = 2000000, warmupRounds = 3, concurrency = 100)
+	@BenchmarkOptions(callgc = false, benchmarkRounds = 20000, warmupRounds = 3, concurrency = 100)
 	public void indexIntegrationTest() {
 		RestTemplate restTemplate = new RestTemplate();
 		String output = restTemplate.getForObject(SEARCH_URL + "search/index?input=" 
