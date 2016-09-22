@@ -18,6 +18,7 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.Ignore;
 import org.junit.rules.TestRule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -69,7 +70,11 @@ public class SearchIntegrationTest {
 		process = pb.start();
 		int i = 0;
 		boolean up = false;
+<<<<<<< HEAD
 		while (i < 1000) {
+=======
+		while (i < 100) {
+>>>>>>> 09114b0eba52a7a29eea74ab7a7f2f5f98aec61f
 			try {
 				Map<String,Object> health = (Map<String,Object>) restTemplate
 					.getForObject(SEARCH_URL + "/health", Map.class);
