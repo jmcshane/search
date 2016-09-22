@@ -58,4 +58,4 @@ Then, a plain text version of the bible was added and a second performance test 
 
 Finally, the number of random inputs was increased to 20000 and run with 100 concurrent users.  The distinction between the types of searches is clearer now with the concurrent requests.
 
-![Third Performance Test](20kconcurrent-itest.PNG)
+![Third Performance Test](20kconcurrent-itest-2.PNG)
